@@ -5,7 +5,7 @@
 ## Title (до 140 символів)
 
 ```
-Year of Dragons Digital Planner for GoodNotes | Habit Tracker with Growing Dragon Stickers | Hyperlinked iPad Planner, 32 Watercolor Stickers
+Year of Dragons Digital Planner for GoodNotes, Habit Tracker with Growing Dragon Stickers, Hyperlinked iPad Planner, 32 Stickers
 ```
 
 ## Tags (13 тегів, до 20 символів кожен)
@@ -37,9 +37,16 @@ savings tracker
 ## Description
 
 ```
-HATCH A DRAGON FROM YOUR HABITS
+HATCH A DRAGON FROM YOUR HABITS 🐉
 
-Year of Dragons is a hyperlinked digital planner for GoodNotes, Notability and any PDF annotation app. Every season has its own elemental dragon, and the dragon grows with your streak: hit a milestone, paste the next life stage over the faded one, and by the end of the season an adult dragon moves into your Hall of Dragons.
+Meet Ember, Lumi, Marin and Volt. Four tiny dragons, four seasons, one promise: show up for your habits and they grow. Keep a streak, and the egg cracks. Keep going, and a baby dragon curls up on your page. By the end of the season, an antlered adult moves into your Hall of Dragons, and you have a tiny trophy shelf of everything you did this year.
+
+No streak? Nothing breaks. The dragon simply waits. This is a planner that cheers, not one that nags.
+
+Here is how it works:
+• Each month page has 5 habits and a growth bar with 8 faded dragon stages.
+• Hit a streak milestone (3, 7, 10 days...), lasso the next stage from the sticker sheet, paste it over the faded one.
+• Watch your dragon grow from egg to adult, season by season.
 
 Four seasons, four dragons, four life areas:
 • Autumn · Ember the fire dragon · energy, movement and daily habits

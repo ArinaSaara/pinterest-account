@@ -3,3 +3,4 @@ images/*
 !images/.gitkeep
 __pycache__/
 *.log
+.venv/

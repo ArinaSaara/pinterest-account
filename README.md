@@ -56,3 +56,10 @@ python3 build_mockups.py
 ```bash
 python3 build_photo_mockups.py
 ```
+
+Відео для лістингу (15 с, без звуку, квадрат і вертикаль). Потрібні imageio
+та imageio-ffmpeg, найпростіше у venv:
+
+```bash
+python3 -m venv .venv && .venv/bin/pip install imageio imageio-ffmpeg pillow numpy pypdf && .venv/bin/python build_video.py
+```

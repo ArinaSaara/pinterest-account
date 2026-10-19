@@ -15,7 +15,7 @@ import fal_client
 from PIL import Image
 
 ROOT = os.path.dirname(os.path.abspath(__file__)); IT = os.path.join(ROOT, "images", "it_girl")
-MODEL = os.environ.get("FAL_MODEL", "fal-ai/kling-video/v3/pro/image-to-video"); DURATION = os.environ.get("DURATION", "5")
+MODEL = os.environ.get("FAL_MODEL", "fal-ai/kling-video/v3/pro/image-to-video"); DURATION = os.environ.get("DURATION", "5"); VERTICAL = bool(os.environ.get("VERTICAL"))   # VERTICAL=1 -> 2:3 input for Pinterest
 STYLE = " Keep the hand-painted watercolor illustration style, the characters' faces and outfits unchanged. Static camera, smooth gentle motion, no text."
 PROMPTS = {
     "work_1": "The girl slowly lifts the mug, takes a small sip, blinks softly and smiles; steam rises from the mug; the small dog breathes calmly; the warm candle glow flickers.",
@@ -35,9 +35,10 @@ def load_key():
 
 
 def make_input(name):
-    os.makedirs(os.path.join(IT, "fal_in"), exist_ok=True); p = os.path.join(IT, "fal_in", name + ".jpg")
-    st = Image.open(os.path.join(IT, "cut", name + ".png")).convert("RGBA"); sc = min(900 / st.width, 760 / st.height); st = st.resize((int(st.width * sc), int(st.height * sc)), Image.LANCZOS)
-    bg = Image.new("RGB", (1080, 1080), (250, 246, 234)); bg.paste(st, ((1080 - st.width) // 2, (1080 - st.height) // 2), st); bg.save(p, quality=95); return p
+    os.makedirs(os.path.join(IT, "fal_in"), exist_ok=True); p = os.path.join(IT, "fal_in", name + ("_v" if VERTICAL else "") + ".jpg")
+    st = Image.open(os.path.join(IT, "cut", name + ".png")).convert("RGBA"); sc = min(900 / st.width, (1000 if VERTICAL else 760) / st.height); st = st.resize((int(st.width * sc), int(st.height * sc)), Image.LANCZOS)
+    W, H = (1080, 1620) if VERTICAL else (1080, 1080)
+    bg = Image.new("RGB", (W, H), (250, 246, 234)); bg.paste(st, ((W - st.width) // 2, (H - st.height) // 2), st); bg.save(p, quality=95); return p
 
 
 def main():
@@ -46,7 +47,7 @@ def main():
         url = fal_client.upload_file(make_input(name)); print(name, "uploaded; generating with", MODEL, "...")
         res = fal_client.subscribe(MODEL, arguments=dict(start_image_url=url, prompt=PROMPTS.get(name, "The girl moves gently and naturally, blinks and smiles.") + STYLE, duration=DURATION, generate_audio=False),
                                    with_logs=False)
-        out = os.path.join(IT, "video", f"fal_{name}.mp4"); urllib.request.urlretrieve(res["video"]["url"], out); print(out, round(os.path.getsize(out) / 1e6, 1), "MB")
+        out = os.path.join(IT, "video", f"fal_{name}{'_vertical' if VERTICAL else ''}.mp4"); urllib.request.urlretrieve(res["video"]["url"], out); print(out, round(os.path.getsize(out) / 1e6, 1), "MB")
 
 
 if __name__ == "__main__":

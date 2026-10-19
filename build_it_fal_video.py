@@ -23,6 +23,7 @@ PROMPTS = {
     "seasons_7": "The girl glides on the ice with a graceful skating motion, scarf flowing, soft snow falling, string lights twinkling.",
     "seasons_8": "The girl hangs a golden ornament on the Christmas tree and smiles; the tree lights twinkle; the small dog wags its tail.",
     "seasons_5": "The girl smiles and gently tosses the maple leaves from her hands upward; a few golden leaves float down around her; the small dog stays beside her and wags its tail slightly; the scene stays the same single continuous shot.",
+    "dev_2": "The girl types on the keyboard and looks at the two monitors with code, tilts her head thoughtfully and smiles; the code on the screens scrolls; the desk lamp glows warmly; the scene stays one continuous shot.",
     "seasons_6": "The girl carves the pumpkin with a small tool, smiles; the lantern flickers warmly; steam rises from the bowl.",
     "cozy_1": "The girl turns a page of her book, blinks softly and smiles; the lamp glow flickers; the dog sleeps and breathes calmly.",
     "fit_2": "The girl does smooth dumbbell curls with a happy expression; her curls bounce slightly; leaves sway.",

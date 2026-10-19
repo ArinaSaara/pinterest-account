@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Instantiate static TTFs (reportlab can't use variable fonts) from the OFL variable fonts in fonts/src.
 
-Fonts (all SIL Open Font License, from github.com/google/fonts): Playfair Display, DM Sans, Jost, Pinyon Script.
+Fonts (all SIL Open Font License, from github.com/google/fonts): Playfair Display, DM Sans, Jost, Pinyon Script, Caveat.
 Run:  .venv-planner/bin/python build_it_fonts.py
 """
 import os
@@ -22,6 +22,7 @@ JOBS = [
     ("DMSans[opsz,wght].ttf", "DMSans-SemiBold.ttf", {"wght": 600, "opsz": 14}),
     ("DMSans-Italic[opsz,wght].ttf", "DMSans-Italic.ttf", {"wght": 400, "opsz": 14}),
     ("Jost[wght].ttf", "Jost-ExtraLight.ttf", {"wght": 200}),
+    ("Caveat[wght].ttf", "Caveat-SemiBold.ttf", {"wght": 600}),
 ]
 for src, dst, axes in JOBS:
     f = TTFont(os.path.join(SRC, src)); instantiateVariableFont(f, axes, inplace=True); f.save(os.path.join(OUT, dst))

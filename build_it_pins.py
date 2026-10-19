@@ -15,7 +15,7 @@ from build_mockups import place
 
 ROOT = os.path.dirname(os.path.abspath(__file__)); IT = os.path.join(ROOT, "images", "it_girl")
 OUT = os.path.join(IT, "pins"); os.makedirs(OUT, exist_ok=True)
-LISTING_URL = os.environ.get("LISTING_URL", "https://www.etsy.com/listing/PASTE_LISTING_ID/PASTE-SLUG")
+LISTING_URL = os.environ.get("LISTING_URL", "https://www.etsy.com/listing/4598647898/2027-daily-planner-for-goodnotes-it-girl")
 BOARD = "Digital Planners"; BOARD_ST = "Digital Stickers"
 W, H = 1000, 1500
 

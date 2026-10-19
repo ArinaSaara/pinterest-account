@@ -16,12 +16,14 @@ from PIL import Image
 
 ROOT = os.path.dirname(os.path.abspath(__file__)); IT = os.path.join(ROOT, "images", "it_girl")
 MODEL = os.environ.get("FAL_MODEL", "fal-ai/kling-video/v3/pro/image-to-video"); DURATION = os.environ.get("DURATION", "5"); VERTICAL = bool(os.environ.get("VERTICAL"))   # VERTICAL=1 -> 2:3 input for Pinterest
-STYLE = " Keep the hand-painted watercolor illustration style, the characters' faces and outfits unchanged. Static camera, smooth gentle motion, no text."
+STYLE = " Keep the hand-painted watercolor illustration style, the characters' faces and outfits unchanged. Locked static camera, the whole illustration stays in frame without zooming or panning, smooth gentle motion, no text."
 PROMPTS = {
     "work_1": "The girl slowly lifts the mug, takes a small sip, blinks softly and smiles; steam rises from the mug; the small dog breathes calmly; the warm candle glow flickers.",
     "dev_3": "The girl cheers with both arms up, laughing; golden confetti falls; the small dog wags and bounces; the lamp glows.",
     "seasons_7": "The girl glides on the ice with a graceful skating motion, scarf flowing, soft snow falling, string lights twinkling.",
     "seasons_8": "The girl hangs a golden ornament on the Christmas tree and smiles; the tree lights twinkle; the small dog wags its tail.",
+    "seasons_5": "The girl gathers a bunch of maple leaves, smiles and tosses a few into the air; golden leaves drift down; the small dog in the sweater wags its tail and sniffs the leaves; warm autumn light and the lamp glow.",
+    "seasons_6": "The girl carves the pumpkin with a small tool, smiles; the lantern flickers warmly; steam rises from the bowl.",
     "cozy_1": "The girl turns a page of her book, blinks softly and smiles; the lamp glow flickers; the dog sleeps and breathes calmly.",
     "fit_2": "The girl does smooth dumbbell curls with a happy expression; her curls bounce slightly; leaves sway.",
     "work_3": "The girl types on the laptop, glances at the screen and smiles; the dog breathes calmly; the lamp glow flickers.",

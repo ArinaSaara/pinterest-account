@@ -63,3 +63,51 @@ python3 build_photo_mockups.py
 ```bash
 python3 -m venv .venv && .venv/bin/pip install imageio imageio-ffmpeg pillow numpy pypdf && .venv/bin/python build_video.py
 ```
+
+## Tumblr
+
+Ті самі піни з `pins.csv` можна постити в Tumblr. Створіть застосунок на
+https://www.tumblr.com/oauth/apps (callback `http://localhost:8080/callback`),
+впишіть `TUMBLR_CONSUMER_KEY` і `TUMBLR_CONSUMER_SECRET` у `.env`, потім:
+
+```bash
+python3 post_tumblr.py auth
+python3 post_tumblr.py blogs
+python3 post_tumblr.py publish pins.csv --dry-run
+python3 post_tumblr.py publish pins.csv --queue
+```
+
+`--queue` кладе пости в чергу Tumblr, і він сам розтягує їх по часу (інтервал
+налаштовується в блозі: Settings → Queue). Без `--queue` все виходить одразу.
+Теги беруться з колонки `tags` у CSV, якщо вона є, інакше підбираються за назвою
+картинки. Токен Tumblr живе обмежений час, скрипт оновлює його сам через
+refresh-токен.
+
+## Готичний дракон (окремий пак)
+
+Стікери лежать поза git у `images/shadow` (крем + `transparent/`). Пак не
+входить у річний планер і збирається окремо (PDF на 8 сторінок, аркуш для
+Pinterest, пін): промпти, media ID і опис у `prompts/shadow_dragon_stickers.md`,
+тексти лістингу в `prompts/etsy_listing_shadow.md`.
+
+```bash
+python3 build_year_of_dragons.py shadow
+python3 build_pins.py
+```
+
+## Code & Cozy 2027 (щоденний планер для айтішниці)
+
+Векторний PDF для GoodNotes (iPad, 3:4): 504 сторінки, клікабельні вкладки,
+місяці, тижні, 365 денних сторінок, хаби Work / Health / Life / Notes.
+Стікери беруться з `images/it_girl/src/*.webp` (10 аркушів по 8: work, fit, cozy, travel, home, hobby, social, dev, seasons, love); назви в `it_stickers.py`.
+
+```bash
+python3 -m venv .venv-planner && .venv-planner/bin/pip install reportlab pillow numpy scipy pypdf
+.venv-planner/bin/python cut_it_girl_stickers.py      # 24 прозорі стікери
+.venv-planner/bin/python build_it_planner.py          # старт тижня з понеділка
+.venv-planner/bin/python build_it_planner.py sun      # старт тижня з неділі
+.venv-planner/bin/python build_it_stickerpack.py      # стікерпак: PNG, стікербук PDF, аркуші, overview, zip
+```
+
+Шрифти в прототипі системні (Didot, Avenir Next); перед продажем замінити на
+open-licence (рядки `registerFont` угорі скрипта).

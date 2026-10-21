@@ -127,11 +127,13 @@ sed -i '' 's#ETSY_LISTING_URL#https://www.etsy.com/listing/XXXX#' pins_hot_girl.
 
 Заголовки пінів зумисне через «symptom tracker», «menopause journal», «hormone tracker».
 
-## Video
+## Video (images/hot_girl/video/)
 
-Fill-відео як у весільного (build_wedding_fill_video.py) ще не адаптоване. Сцени для
-нього: рядок у daily log, кілька квадратів Hot Map, наклеювання віяла на Марго,
-сторінка для лікаря. Зробити після перших продажів або коли буде час.
+`video_fill_vertical.mp4` (1080x1920, 58 с, для Etsy video, Reels, Pinterest) і
+`video_fill_square.mp4` (1080x1080). Зібрано `build_hot_girl_fill_video.py`: шість
+сцен, профіль із першою нагородою на Марго, п'ять рядків daily log, Hot Map, сітка
+звичок із маскою для сну, сторінка для лікаря, обкладинка. Etsy приймає одне відео
+на лістинг, до 5 хв і 100 MB: вертикальне 36 MB підходить.
 
 ## Не забути
 

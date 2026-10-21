@@ -44,7 +44,7 @@ SHEETS = {
                    "d_banner", "d_arrow", "d_heart", "d_lipstick",
                    "d_sunglasses", "d_icedcoffee", "d_cat", "d_flame"]),
 }
-BIG, SMALL = 5000, 300
+BIG, SMALL, NEAR = 5000, 300, 40
 
 
 def cut(sheet, cols, names):
@@ -55,7 +55,19 @@ def cut(sheet, cols, names):
     sizes = ndi.sum(mask, lab, range(1, n + 1))
     objs = ndi.find_objects(lab)
     groups = [[i + 1] for i, s in enumerate(sizes) if s > BIG]                  # one blob = one sticker
-    small = [i + 1 for i, s in enumerate(sizes) if SMALL < s <= BIG]            # crumbs: cluster the ones that sit together
+    small = [i + 1 for i, s in enumerate(sizes) if SMALL < s <= BIG]            # crumbs: sparkles, steam, motion lines
+    if small:                                                                    # a crumb within NEAR px of a sticker belongs to it
+        bigmask = np.isin(lab, [g[0] for g in groups])
+        dist, (iy, ix) = ndi.distance_transform_edt(~bigmask, return_indices=True)
+        keep = []
+        for i in small:
+            ys, xs = np.where(lab == i); j = int(np.argmin(dist[ys, xs]))
+            if dist[ys[j], xs[j]] < NEAR:
+                owner = lab[iy[ys[j], xs[j]], ix[ys[j], xs[j]]]
+                next(g for g in groups if g[0] == owner).append(i)
+            else:
+                keep.append(i)
+        small = keep
     if small:
         sm = np.isin(lab, small)
         cl, k = ndi.label(ndi.binary_dilation(sm, iterations=14))
@@ -78,8 +90,47 @@ def cut(sheet, cols, names):
         Image.fromarray(arr).save(os.path.join(OUT, name + ".png"), optimize=True)
 
 
-for sheet, (cols, names) in SHEETS.items():
-    if os.path.exists(os.path.join(SRC, sheet + ".webp")):
-        cut(sheet, cols, names); print(sheet, len(names))
-    else:
-        print(sheet, "missing, skipped")
+def cut_grid(sheet, cols, names):
+    """Fallback for sheets where stickers touch: split the mask along the emptiest line between grid cells,
+    use the eroded body of each cell as a marker, and hand every opaque pixel to the nearest marker."""
+    im = Image.open(os.path.join(SRC, sheet + ".webp")).convert("RGBA")
+    a = np.asarray(im); mask = a[..., 3] > 20; hgt, wid = mask.shape; rows = len(names) // cols
+
+    def seps(profile, n, span):
+        out = []
+        for i in range(1, n):
+            lo, hi = int(span * i / n - span / n * 0.3), int(span * i / n + span / n * 0.3)
+            out.append(lo + int(np.argmin(profile[lo:hi])))
+        return out
+    xs = [0] + seps(mask.sum(0), cols, wid) + [wid]; ys = [0] + seps(mask.sum(1), rows, hgt) + [hgt]
+    core = ndi.binary_erosion(mask, iterations=10)
+    for x in xs[1:-1]:
+        core[:, x - 3:x + 3] = False
+    for y in ys[1:-1]:
+        core[y - 3:y + 3, :] = False
+    lab, n = ndi.label(core); sizes = ndi.sum(core, lab, range(1, n + 1)); cent = ndi.center_of_mass(core, lab, range(1, n + 1))
+    marker = np.zeros(mask.shape, dtype=np.int32)
+    for i in range(n):
+        if sizes[i] < 1500:
+            continue
+        cy, cx = cent[i]; r = np.searchsorted(ys, cy) - 1; c = np.searchsorted(xs, cx) - 1
+        marker[lab == i + 1] = r * cols + c + 1
+    found = len(np.unique(marker)) - 1
+    assert found == len(names), f"{sheet}: grid split found {found} stickers, expected {len(names)}"
+    _, (iy, ix) = ndi.distance_transform_edt(marker == 0, return_indices=True)
+    owner = marker[iy, ix] * mask
+    for k, name in enumerate(names):
+        own = owner == k + 1
+        yy, xx = np.where(own); y0, y1, x0, x1 = yy.min(), yy.max() + 1, xx.min(), xx.max() + 1
+        arr = a[y0:y1, x0:x1].copy(); arr[~own[y0:y1, x0:x1], 3] = 0
+        Image.fromarray(arr).save(os.path.join(OUT, name + ".png"), optimize=True)
+
+
+if __name__ == "__main__":
+    for sheet, (cols, names) in SHEETS.items():
+        if not os.path.exists(os.path.join(SRC, sheet + ".webp")):
+            print(sheet, "missing, skipped"); continue
+        try:
+            cut(sheet, cols, names); print(sheet, len(names), "by blobs")
+        except AssertionError as e:
+            cut_grid(sheet, cols, names); print(sheet, len(names), "by grid  (", e, ")")

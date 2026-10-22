@@ -1,5 +1,7 @@
 # Etsy listing: Hot Girl Era, perimenopause tracker for GoodNotes
 
+Опубліковано 2026-10-22: https://www.etsy.com/listing/4600907772/perimenopause-symptom-tracker-for
+
 Ключові слова за дослідженням (2026-10-21): шукають «tracker» і «journal», не «planner».
 «hormone tracker» 1–10 тис./міс (+900 %), «menopause journal» 100–1 тис. (+900 %),
 «perimenopause symptom tracker» і «perimenopause tracker» 100–1 тис. У заголовку
